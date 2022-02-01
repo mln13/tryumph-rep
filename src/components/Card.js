@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Card extends React.Component {
   render() {
@@ -7,6 +8,10 @@ class Card extends React.Component {
       cardImage,
       cardDescription,
       cardTrunfo,
+      cardAttr1,
+      cardAttr2,
+      cardAttr3,
+      cardRare,
     } = this.props;
     return (
       <div>
@@ -18,7 +23,7 @@ class Card extends React.Component {
         <div data-testid="attr3-card">{cardAttr3}</div>
         <div data-testid="rare-card">{cardRare}</div>
         {
-          cardTrunfo ? <p data-testid="trunfo-card">Super Trunfo</p> : <p>Normal</p>
+          cardTrunfo && <p data-testid="trunfo-card">Super Trunfo</p>
         }
       </div>
     );
@@ -30,6 +35,10 @@ Card.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardDescription: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.string.isRequired,
+  cardAttr1: PropTypes.string.isRequired,
+  cardAttr2: PropTypes.string.isRequired,
+  cardAttr3: PropTypes.string.isRequired,
+  cardRare: PropTypes.string.isRequired,
 };
 
 export default Card;
