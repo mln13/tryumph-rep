@@ -118,6 +118,7 @@ class App extends React.Component {
       cardTrunfo,
       hasTrunfo,
       isSaveButtonDisabled,
+      storeCard,
     } = this.state;
     return (
       <div>
@@ -145,6 +146,29 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+        <ul>
+          {storeCard.map((elemento) => (
+            <li key={ elemento.cardName }>
+              <Card
+                cardName={ elemento.cardName }
+                cardDescription={ elemento.cardDescription }
+                cardAttr1={ elemento.cardAttr1 }
+                cardAttr2={ elemento.cardAttr2 }
+                cardAttr3={ elemento.cardAttr3 }
+                cardImage={ elemento.cardImage }
+                cardRare={ elemento.cardRare }
+                cardTrunfo={ elemento.cardTrunfo }
+              />
+            </li>
+          ))}
+        </ul>
+        <button
+          type="button"
+          data-testid="delete-button"
+          onClick={ (event) => console.log(event.target) }
+        >
+          Excluir
+        </button>
       </div>
     );
   }
