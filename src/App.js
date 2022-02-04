@@ -159,16 +159,21 @@ class App extends React.Component {
                 cardRare={ elemento.cardRare }
                 cardTrunfo={ elemento.cardTrunfo }
               />
+              <button
+                type="button"
+                data-testid="delete-button"
+                onClick={ ((event) => {
+                  this.setState({
+                    hasTrunfo: false,
+                  });
+                  event.target.parentNode.remove();
+                }) }
+              >
+                Excluir
+              </button>
             </li>
           ))}
         </ul>
-        <button
-          type="button"
-          data-testid="delete-button"
-          onClick={ (event) => console.log(event.target) }
-        >
-          Excluir
-        </button>
       </div>
     );
   }
