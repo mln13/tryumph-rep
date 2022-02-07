@@ -235,7 +235,7 @@ class App extends React.Component {
           )
             : this.renderMap(
               storeCard.filter((elemento) => (elemento.cardName.includes(filterCardByName)
-          && elemento.cardRare.includes(filterCardByRarity))),
+          && elemento.cardRare.split(' ')[0].includes(filterCardByRarity))),
             )}
         </ul>
       </div>
