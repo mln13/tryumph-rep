@@ -212,7 +212,7 @@ class App extends React.Component {
             <option value="" selected>todas</option>
             <option value="normal">normal</option>
             <option value="raro">raro</option>
-            <option value="muito raro">muito raro</option>
+            <option value="muito">muito raro</option>
           </select>
         </label>
         <label htmlFor="trunfoCheck">
