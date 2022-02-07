@@ -28,6 +28,7 @@ class Form extends React.Component {
           />
         </label>
         <label htmlFor="descricao">
+          Descrição
           <input
             id="descricao"
             value={ cardDescription }

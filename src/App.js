@@ -21,6 +21,7 @@ class App extends React.Component {
     this.saveOnClick = this.saveOnClick.bind(this);
     this.afterSave = this.afterSave.bind(this);
     this.hasTrunfoCard = this.hasTrunfoCard.bind(this);
+    this.renderMap = this.renderMap.bind(this);
     this.state = {
       cardName: '',
       cardDescription: '',
@@ -33,6 +34,9 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       storeCard: [],
+      filterCardByName: '',
+      filterCardByRarity: '',
+      filterByTrunfo: false,
     };
   }
 
@@ -106,6 +110,35 @@ class App extends React.Component {
     });
   }
 
+  renderMap(array) {
+    return array.map((elemento) => (
+      <li key={ elemento.cardName }>
+        <Card
+          cardName={ elemento.cardName }
+          cardDescription={ elemento.cardDescription }
+          cardAttr1={ elemento.cardAttr1 }
+          cardAttr2={ elemento.cardAttr2 }
+          cardAttr3={ elemento.cardAttr3 }
+          cardImage={ elemento.cardImage }
+          cardRare={ elemento.cardRare }
+          cardTrunfo={ elemento.cardTrunfo }
+        />
+        <button
+          type="button"
+          data-testid="delete-button"
+          onClick={ ((event) => {
+            this.setState({
+              hasTrunfo: false,
+            });
+            event.target.parentNode.remove();
+          }) }
+        >
+          Excluir
+        </button>
+      </li>
+    ));
+  }
+
   render() {
     const {
       cardName,
@@ -119,6 +152,9 @@ class App extends React.Component {
       hasTrunfo,
       isSaveButtonDisabled,
       storeCard,
+      filterCardByName,
+      filterCardByRarity,
+      filterByTrunfo,
     } = this.state;
     return (
       <div>
@@ -146,33 +182,61 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+        <h2>Todas as Cartas</h2>
+        <label htmlFor="FilterName">
+          Filtro de Busca
+          <input
+            id="FilterName"
+            type="text"
+            disabled={ filterByTrunfo }
+            data-testid="name-filter"
+            onChange={ ({ target: { value } }) => {
+              this.setState({
+                filterCardByName: value,
+              });
+            } }
+          />
+        </label>
+        <label htmlFor="FilterRarity">
+          Raridade
+          <select
+            id="FilterRarity"
+            data-testid="rare-filter"
+            disabled={ filterByTrunfo }
+            onChange={ (event) => {
+              this.setState({
+                filterCardByRarity: event.target.value,
+              });
+            } }
+          >
+            <option value="" selected>todas</option>
+            <option value="normal">normal</option>
+            <option value="raro">raro</option>
+            <option value="muito raro">muito raro</option>
+          </select>
+        </label>
+        <label htmlFor="trunfoCheck">
+          Super Trunfo
+          <input
+            id="trunfoCheck"
+            type="checkbox"
+            data-testid="trunfo-filter"
+            checked={ filterByTrunfo }
+            onChange={
+              (event) => this.setState({
+                filterByTrunfo: event.target.checked,
+              })
+            }
+          />
+        </label>
         <ul>
-          {storeCard.map((elemento) => (
-            <li key={ elemento.cardName }>
-              <Card
-                cardName={ elemento.cardName }
-                cardDescription={ elemento.cardDescription }
-                cardAttr1={ elemento.cardAttr1 }
-                cardAttr2={ elemento.cardAttr2 }
-                cardAttr3={ elemento.cardAttr3 }
-                cardImage={ elemento.cardImage }
-                cardRare={ elemento.cardRare }
-                cardTrunfo={ elemento.cardTrunfo }
-              />
-              <button
-                type="button"
-                data-testid="delete-button"
-                onClick={ ((event) => {
-                  this.setState({
-                    hasTrunfo: false,
-                  });
-                  event.target.parentNode.remove();
-                }) }
-              >
-                Excluir
-              </button>
-            </li>
-          ))}
+          {filterByTrunfo ? this.renderMap(
+            storeCard.filter((elemento) => elemento.cardTrunfo === filterByTrunfo),
+          )
+            : this.renderMap(
+              storeCard.filter((elemento) => (elemento.cardName.includes(filterCardByName)
+          && elemento.cardRare.includes(filterCardByRarity))),
+            )}
         </ul>
       </div>
     );
